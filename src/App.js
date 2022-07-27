@@ -15,9 +15,23 @@ function App() {
         <div className={"flex flex-col justify-between flex-1 min-h-screen w-full overflow-hidden"} data-theme={curTheme}>
             <Navbar setTheme={setCurTheme} />
             
-            <div className={"container mx-auto"}>
-                
+            <div className={"container mx-auto flex-1 flex align-middle justify-center"}>
+                <div className={"flex flex-col justify-between items-center"}>
+                    <h1 className={"text-6xl font-bold mt-6"}>
+                        I AM THE MAIN CONTENT
+                    </h1>
+                    <h1 className={"text-6xl font-bold"}>
+                        I AM THE MAIN CONTENT
+                    </h1>
+                    <h1 className={"text-6xl font-bold mb-6"}>
+                        I AM THE MAIN CONTENT
+                    </h1>
+                </div>                
             </div>
+            
+            <footer className={"flex justify-center items-center p-4"}>
+                I AM A FOOT
+            </footer>
         </div>
     );
 }
