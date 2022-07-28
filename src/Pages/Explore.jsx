@@ -10,7 +10,7 @@
                 </h1>
 
                 <h1 ref={showScrollRef}
-                    className={"text-6xl font-bold mb-6 text-center bg-gradient-to-r from-primary to-error via-secondary mb-6"}>
+                    className={"text-6xl font-bold mb-6 text-center bg-gradient-to-r from-primary to-error via-secondary mb-6 bg-clip-text text-transparent"}>
                     ACTUALLY, I AM THE MAIN CONTENT
                 </h1>
             </div>

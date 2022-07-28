@@ -25,7 +25,7 @@ function Navbar() {
             </div>
             
             {/*PROFILE*/}
-            <div onClick={()=>{navigate("/profile")}} className={`${pathMatchRoute('/profile') ? 'text-primary bg-base-300' : 'hover:text-secondary opacity-60 hover:opacity-100 hover:bg-base-200'} w-full p-2 flex flex-col align-middle my-2 hover:cursor-pointer  rounded-xl group items-center mx-2`}>
+            <div onClick={()=>{navigate("/profile")}} className={`${pathMatchRoute('/profile') || pathMatchRoute('/sign-in') || pathMatchRoute('/sign-up') ? 'text-primary bg-base-300' : 'hover:text-secondary opacity-60 hover:opacity-100 hover:bg-base-200'} w-full p-2 flex flex-col align-middle my-2 hover:cursor-pointer  rounded-xl group items-center mx-2`}>
                 <MdPersonPin className={"mx-2 text-6xl "}/>
                 <span className={"text-2xl text-center group-hover:underline decoration-dashed"}>Profile</span>
             </div>
