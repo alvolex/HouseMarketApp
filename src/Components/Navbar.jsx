@@ -1,36 +1,31 @@
 ﻿import React from 'react';
-import {BsHouse} from "react-icons/bs";
-import {GiPaintBucket} from "react-icons/gi";
+import {MdOutlineLocalOffer, MdOutlineExplore, MdPersonPin} from "react-icons/md";
+import {useLocation, useNavigate} from "react-router-dom";
 
-function Navbar({setTheme}) {
-    const randomTheme = () => {
-        const themes = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"];
-        const randomIndex = Math.floor(Math.random() * themes.length);
-
-        let randomTheme = themes[randomIndex]
-        setTheme(randomTheme);
-        localStorage.setItem('theme', randomTheme);
+function Navbar() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    const pathMatchRoute = (path) => {
+        return location.pathname === path;
     }
-
+    
     return (
-        <div className={"navbar bg-base-300"}>
-            <div className={"container mx-auto"}>                
-                {/*Navbar LEFT*/}
-                <div className={"navbar-start"}>
-                    <div className="flex flex-row text-3xl">
-                        <div className="hover:cursor-pointer flex">
-                            <BsHouse className={"text-primary-focus my-auto"}/>
-                            <h1 className={"  invisible sm:visible text-transparent bg-clip-text bg-gradient-to-r from-primary-focus to-secondary-focus"}>HOUSEMARKET</h1>
-                        </div>                        
-                    </div>
-                </div>
-
-                {/*Navbar RIGHT*/}
-                <div className={"navbar-end flex justify-items-end"}>
-                    <div onClick={randomTheme} className="btn btn-primary btn-sm ml-8 mt-auto">
-                        <GiPaintBucket className={"mr-2 text-info text-lg "}/> Randomize Theme
-                    </div>
-                </div>
+        <div className={"3xl:container sm:max-w-[75%]   justify-evenly flex mb-4 shadow-2xl  fixed bottom-0 mx-auto inset-x-0 bg-base-100 rounded-xl"}>
+            
+            <div onClick={()=>{navigate("/")}} className={`${pathMatchRoute('/') ? 'text-accent' : 'hover:text-primary'} flex flex-col align-middle my-2 hover:cursor-pointer hover:bg-base-300 rounded-xl group`}>
+                <MdOutlineExplore className={"mx-2 text-6xl"}/>
+                <span className={"text-2xl text-center group-hover:underline decoration-wavy"}>Explore</span>
+            </div>
+            
+            <div onClick={()=>{navigate("/offers")}} className={` ${pathMatchRoute('/offers') ? 'text-accent' : 'hover:text-primary'} flex flex-col align-middle my-2 hover:cursor-pointer hover:bg-base-300 rounded-xl group `}>
+                <MdOutlineLocalOffer className={"mx-2 text-6xl"}/>
+                <span className={"text-2xl text-center group-hover:underline decoration-wavy"}>Offers</span>
+            </div>
+            
+            <div onClick={()=>{navigate("/profile")}} className={`${pathMatchRoute('/profile') ? 'text-accent' : 'hover:text-primary'} flex flex-col align-middle my-2 hover:cursor-pointer hover:bg-base-300 rounded-xl group`}>
+                <MdPersonPin className={"mx-2 text-6xl"}/>
+                <span className={"text-2xl text-center group-hover:underline decoration-wavy"}>Profile</span>
             </div>
         </div>
     );
