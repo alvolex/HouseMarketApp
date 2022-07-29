@@ -2,16 +2,21 @@
 import {TbArrowTopTail} from "react-icons/tb";
 
 function Alert({showScrollRef}) {
-    const [showGoUp, setShowGoUp] = useState(false);    
+    const [showGoUp, setShowGoUp] = useState(false);  
     
     useEffect(() => {
-        window.addEventListener("scroll", () => {
+        window.addEventListener("scroll", () => {            
             const scrollTop = window.pageYOffset;
-            const h1Top = showScrollRef.current.offsetTop;
+            
+            if (showScrollRef?.current?.offsetTop){
+                const h1Top = showScrollRef?.current.offsetTop;
 
-            if (scrollTop > h1Top) {
-                setShowGoUp(true);
-            } else {
+                if (scrollTop > h1Top) {
+                    setShowGoUp(true);
+                } else {
+                    setShowGoUp(false);
+                }
+            }else {
                 setShowGoUp(false);
             }
         })
