@@ -3,6 +3,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {RiLockPasswordFill, RiMailFill, RiFileUserFill} from "react-icons/ri";
 import {validateEmail} from "../Helpers/EmailValidation";
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
+
 import {db} from "../firebase.config";
 
 function SignUp() {
@@ -25,6 +27,13 @@ function SignUp() {
 
             const user = userCredential.user;            
             updateProfile(auth.currentUser, {displayName: name})
+            
+            const formDataCopy = {...formData};
+            delete formDataCopy.password;
+            //todo figure out why timestamping is not working
+            formData.timestamp = serverTimestamp();
+            
+            await setDoc(doc(db, 'users', user.uid), formDataCopy)
             
             navigate("/");
         } catch(error){
