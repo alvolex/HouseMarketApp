@@ -1,8 +1,19 @@
-﻿import React from 'react';
-import {useNavigate} from "react-router-dom";
+﻿import React, {useState} from 'react';
+import {Link, useNavigate} from "react-router-dom";
+import {RiLockPasswordFill, RiMailFill} from "react-icons/ri";
+import {validateEmail} from "../Helpers/EmailValidation";
 
 function SignIn() {
     const navigate = useNavigate();
+    const [validEmail, setValidEmail] = useState(true);
+    
+    const [formData, setFormData] = useState({
+        email: "",
+        password: ""
+    });
+    
+    const {email, password} = formData;   
+    
     
     return (
         <div className={"container mx-auto flex-1 flex-col flex justify-center"}>             
@@ -13,7 +24,11 @@ function SignIn() {
                         <label className="label font-bold">
                             <span className="label-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Email</span>
                         </label>
-                        <input type="text" placeholder="E-mail" className="input input-bordered"/>
+                            <div className={"relative flex justify-end items-center"}>
+                            <RiMailFill className={"absolute left-0 ml-2 text-xl text-primary"}/>
+                            <input type="text" onFocus={()=>{setValidEmail(true)}} onBlur={()=>{if (email.length > 0) {setValidEmail(validateEmail(email))} else {setValidEmail(true)}}} value={email} onChange={(e)=>{setFormData({email: e.target.value, password: password})}} placeholder={`E-mail`} className={`${validEmail ? '' : 'border-error'} pl-8 input input-bordered w-full`}/>
+                        </div>
+                        
                     </div>
                     <div className="form-control">
                         <label className="label font-bold">
@@ -21,18 +36,18 @@ function SignIn() {
                         </label>
                         <input type="password" placeholder="Password" className="input input-bordered"/>
                         <label className="label justify-end">
-                            <a href="#" className="label-text-alt link link-hover text-primary font-bold italic">Forgot password?</a>
+                            <Link to={"/forgot-password"} className="label-text-alt link link-hover text-primary font-bold italic">Forgot password?</Link>
                         </label>
                     </div>
                     <div className="form-control mt-6">
-                        <button className="btn btn-primary font-bold text-xl">Login</button>
+                        <button className="btn btn-primary font-bold text-xl" onClick={() => {console.log(formData)}}>Login</button>
                     </div>
                 </div>
                 
                 
             </div>
 
-            <h1 className={"mx-auto text-2xl py-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-center"}>Don't have an account? <p onClick={()=>{navigate("/sign-up")}} className={"origin-center -rotate-[8deg] hover:rotate-[0deg] italic btn btn-secondary hover:cursor-pointer relative bottom-1  ml-4 shadow-sm shadow-primary hover:shadow-none"}>Signup!</p></h1>
+            <h1 className={"mx-auto text-2xl py-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-center"}>Don't have an account? <Link to={"/sign-up"} className={"origin-center -rotate-[8deg] hover:rotate-[0deg] italic btn btn-secondary hover:cursor-pointer relative bottom-1  ml-4 shadow-sm shadow-primary hover:shadow-none"}>Signup!</Link></h1>
         </div>
     );
 }
