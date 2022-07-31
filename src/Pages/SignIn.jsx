@@ -21,11 +21,9 @@ function SignIn() {
         e.preventDefault();
         try{
             const auth = getAuth();
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);            
             const user = userCredential.user;
 
-            console.log("Logged in!" + user)
             navigate("/");
         } catch(error){
             console.log(error.message)
@@ -66,7 +64,7 @@ function SignIn() {
                             <span className="label-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Password</span>
                         </label>
                         <div className={"relative flex justify-end items-center"}>
-                            <RiMailFill className={"absolute left-0 ml-2 text-xl text-primary"}/>
+                            <RiLockPasswordFill className={"absolute left-0 ml-2 text-xl text-primary"}/>
                             <input value={password} onChange={(e) => setFormData({email: email, password: e.target.value})} type="password" placeholder="Password" className="pl-8 input input-bordered w-full"/>
                         </div>
                         <label className="label justify-end">

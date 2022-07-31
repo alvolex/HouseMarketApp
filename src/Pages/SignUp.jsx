@@ -14,7 +14,7 @@ function SignUp() {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        name: ""
+        name: "",
     });
 
     const {email, password, name} = formData;
@@ -30,10 +30,11 @@ function SignUp() {
             
             const formDataCopy = {...formData};
             delete formDataCopy.password;
-            //todo figure out why timestamping is not working
-            formData.timestamp = serverTimestamp();
+
+            formDataCopy.timestamp = serverTimestamp();
             
-            await setDoc(doc(db, 'users', user.uid), formDataCopy)
+            const docRef = doc(db, "users", user.uid);            
+            await setDoc(docRef, formDataCopy);
             
             navigate("/");
         } catch(error){
