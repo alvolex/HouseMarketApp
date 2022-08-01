@@ -6,6 +6,7 @@ import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/a
 import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
 
 import {db} from "../firebase.config";
+import {toast} from "react-toastify";
 
 function SignUp() {
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ function SignUp() {
             
             navigate("/");
         } catch(error){
-            console.log(error.message)
+            toast.error('Something went wrong, please try again.');
         }
     }   
 

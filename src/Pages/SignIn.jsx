@@ -5,6 +5,7 @@ import {validateEmail} from "../Helpers/EmailValidation";
 
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {db} from "../firebase.config";
+import {toast} from "react-toastify";
 
 function SignIn() {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ function SignIn() {
 
             navigate("/");
         } catch(error){
-            console.log(error.message)
+            toast.error('Invalid email or password');
         }   
     }
 

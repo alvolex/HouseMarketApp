@@ -11,6 +11,8 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import NotFound from "./Pages/NotFound";
 import Navbar from "./Components/Navbar";
 import {AiFillCopyrightCircle} from "react-icons/ai";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -46,7 +48,10 @@ function App() {
             <footer className={"flex justify-center items-center p-4 text-center pb-[10em] bg-base-300"}>
                 <AiFillCopyrightCircle className={"text-primary"} /> YOU HAVE REACHED THE FOOT
             </footer> 
-        </div>  
+        </div>          
+
+        <ToastContainer theme={"colored"}/>
+
     </>);
 }
 
