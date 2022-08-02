@@ -22,26 +22,26 @@ function SignUp() {
 
     const signUp = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const auth = getAuth();
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-            const user = userCredential.user;            
+            const user = userCredential.user;
             updateProfile(auth.currentUser, {displayName: name})
-            
+
             const formDataCopy = {...formData};
             delete formDataCopy.password;
 
             formDataCopy.timestamp = serverTimestamp();
-            
-            const docRef = doc(db, "users", user.uid);            
+
+            const docRef = doc(db, "users", user.uid);
             await setDoc(docRef, formDataCopy);
-            
+
             navigate("/");
-        } catch(error){
+        } catch (error) {
             toast.error('Something went wrong, please try again.');
         }
-    }   
+    }
 
     return (
         <div className={"container mx-auto flex-1 flex-col flex justify-center"}>
@@ -58,7 +58,8 @@ function SignUp() {
                             </label>
                             <div className={"relative flex justify-end items-center"}>
                                 <RiFileUserFill className={"absolute left-0 ml-2 text-xl text-primary"}/>
-                                <input type="text" placeholder={`John Doe`} className="pl-8 input input-bordered w-full" value={name} onChange={(e)=>{setFormData({...formData, name:e.target.value})}}/>
+                                <input type="text" placeholder={`John Doe`} className="pl-8 input input-bordered w-full" value={name}
+                                       onChange={(e) => {setFormData({...formData, name: e.target.value})}}/>
                             </div>
                         </div>
 
@@ -66,22 +67,28 @@ function SignUp() {
 
                             {/*EMAIL*/}
                             <label className="label font-bold">
-                                <span className="label-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Email</span>
+                                <span
+                                    className="label-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Email</span>
                             </label>
                             <div className={"relative flex justify-end items-center"}>
                                 <RiMailFill className={"absolute left-0 ml-2 text-xl text-primary"}/>
-                                <input onBlur={()=>{if (email.length > 0) {setValidEmail(validateEmail(email))}}} onFocus={()=>{setValidEmail(true)}} type="text" value={email} onChange={(e)=>{setFormData({...formData, email: e.target.value})}} placeholder={`E-mail`} className={`${validEmail ? '' : 'border-error'} pl-8 input input-bordered w-full`}/>
+                                <input onBlur={() => {if (email.length > 0) {setValidEmail(validateEmail(email))}}}
+                                       onFocus={() => {setValidEmail(true)}} type="text" value={email}
+                                       onChange={(e) => {setFormData({...formData, email: e.target.value})}} placeholder={`E-mail`}
+                                       className={`${validEmail ? '' : 'border-error'} pl-8 input input-bordered w-full`}/>
                             </div>
                         </div>
                         <div className="form-control">
 
                             {/*PASSWORD*/}
                             <label className="label font-bold">
-                                <span className="label-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Password</span>
+                                <span
+                                    className="label-text bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Password</span>
                             </label>
                             <div className={"relative flex justify-end items-center"}>
                                 <RiLockPasswordFill className={"absolute left-0 ml-2 text-xl text-primary"}/>
-                                <input type="password" placeholder={`Password`} className="pl-8 input input-bordered w-full" value={password} onChange={(e)=>{setFormData({...formData, password: e.target.value})}}/>
+                                <input type="password" placeholder={`Password`} className="pl-8 input input-bordered w-full" value={password}
+                                       onChange={(e) => {setFormData({...formData, password: e.target.value})}}/>
                             </div>
                         </div>
 
@@ -91,12 +98,11 @@ function SignUp() {
                         </div>
                     </div>
                 </form>
-                
-
-
             </div>
-
-            <h1 className={"mx-auto text-2xl py-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-center"}>Have an account? <Link to={"/sign-in"} className={"origin-center -rotate-[8deg] hover:rotate-[0deg] italic btn btn-secondary hover:cursor-pointer relative bottom-1 ml-4 shadow-sm shadow-primary hover:shadow-none"}>Login!</Link></h1>
+            <h1 className={"mx-auto text-2xl py-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-center"}>Have an
+                account? <Link to={"/sign-in"}
+                               className={"origin-center -rotate-[8deg] hover:rotate-[0deg] italic btn btn-secondary hover:cursor-pointer relative bottom-1 ml-4 shadow-sm shadow-primary hover:shadow-none"}>Login!</Link>
+            </h1>
         </div>
     );
 }

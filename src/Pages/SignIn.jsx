@@ -36,8 +36,7 @@ function SignIn() {
             <div className="card shadow-md shadow-secondary bg-base-300 w-4/5 md:w-1/2 mx-auto border-2 border-secondary">
                 <h1 className={"mx-auto text-6xl pb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mt-6"}>LOGIN</h1>
                 
-                <form>
-                    
+                <form>                    
                 
                 <div className="card-body px-6 pb-6 pt-0">
                     <div className="form-control">

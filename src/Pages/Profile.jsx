@@ -4,57 +4,52 @@ import {getAuth, updateProfile, onAuthStateChanged} from "firebase/auth";
 import {db} from "../firebase.config";
 import {doc, updateDoc} from "firebase/firestore";
 import {toast} from "react-toastify";
+import Spinner from "../Components/Spinner";
 
 function Profile() {
     const auth = getAuth();
     const navigate = useNavigate();
-    
-    const [changeDetails, setChangeDetails] = useState(false);    
+
+    const [changeDetails, setChangeDetails] = useState(false);
     const [currentUser, setCurrentUser] = useState({});
-    
+    const [loading, setLoading] = useState(true);
+
     const [formData, setFormData] = useState({
         name: auth.currentUser?.displayName || "",
-        email: auth.currentUser?.email  || "",
-    });    
-    
-    const {name, email} = formData;    
-    
-    useEffect(()=>{
-        onAuthStateChanged(auth,(user) => {
+        email: auth.currentUser?.email || "",
+    });
+
+    const {name, email} = formData;
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
             if (user && user !== currentUser) {
                 setCurrentUser(user);
                 setFormData({name: user.displayName, email: user.email});
-            }
-            else if (!user) {
+                setLoading(false);
+            } else if (!user) {
                 navigate("/sign-in")
             }
         });
-        
-       /* if (auth.currentUser){
-            setCurrentUser(auth.currentUser);
-        }else{
-            setCurrentUser({});
-            navigate("/sign-in")
-        }*/
-    },[])
+    }, [])
 
     const onLogout = () => {
         auth.signOut();
         navigate("/");
     }
-    
-    const onSubmit = async (e) => {
+
+    const onSubmit = async () => {
         try {
-            if (auth.currentUser.displayName === name){
+            if (auth.currentUser.displayName === name) {
                 return;
             }
 
-            await updateProfile(auth.currentUser, {displayName: name});            
-            const userRef = doc(db, "users", auth.currentUser.uid);            
+            await updateProfile(auth.currentUser, {displayName: name});
+            const userRef = doc(db, "users", auth.currentUser.uid);
             await updateDoc(userRef, {name: name});
-            
+
             setCurrentUser({...currentUser, displayName: name});
-            
+
         } catch (error) {
             toast.error('Something went wrong, please try again.');
         }
@@ -63,25 +58,29 @@ function Profile() {
     const onChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
     }
-    
+
     const formatName = () => {
-        if (currentUser.displayName){
+        if (currentUser.displayName) {
             let firstName = currentUser.displayName.split(" ")[0];
-            if (firstName.length > 10){
-                firstName =  firstName.substring(0, 10) + "...";
+            if (firstName.length > 10) {
+                firstName = firstName.substring(0, 10) + "...";
             }
-            
+
             const lastName = currentUser.displayName.split(" ")[1];
-            
-            if (lastName){
+
+            if (lastName) {
                 return `${firstName} ${lastName[0].toUpperCase()}`;
-            }            
+            }
             return firstName;
-        }else{
+        } else {
             return "";
         }
     }
-    
+
+    if (loading) {
+        return (<div className={"container mx-auto flex-1 flex flex-col mt-6 items-center"}><Spinner/></div>)
+    }
+
     return (
         <div className={"container mx-auto flex-1 flex flex-col mt-6 items-center"}>
             <div className={"flex sm:flex-row flex-col items-center mb-6 mx-auto"}>
@@ -115,7 +114,7 @@ function Profile() {
                 </div>
             </main>
         </div>
-    )    
+    )
 }
 
 export default Profile;
