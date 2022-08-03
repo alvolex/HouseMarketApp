@@ -89,7 +89,7 @@ function Profile() {
                         Welcome, <span className={"whitespace-nowrap"}>{formatName()}</span>
                     </h1>
                 </div>
-                <button type={"button"} onClick={onLogout} className={"btn btn-primary mx-auto sm:w-fit w-full max-w-[50%] sm:ml-10"}>Sign out
+                <button type={"button"} onClick={onLogout} className={"btn btn-primary mx-auto sm:w-fit w-full max-w-[50%] sm:ml-10 "}>Sign out
                 </button>
             </div>
 

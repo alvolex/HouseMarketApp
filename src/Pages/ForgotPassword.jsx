@@ -1,12 +1,11 @@
 ﻿import React, {useState} from 'react';
-import {RiLockPasswordFill, RiMailFill} from "react-icons/ri";
+import {RiMailFill} from "react-icons/ri";
 import {validateEmail} from "../Helpers/EmailValidation";
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
 import {getAuth, sendPasswordResetEmail} from "firebase/auth";
 
-function ForgotPassword() {
-    const auth = getAuth();
+function ForgotPassword() {    
     const [validEmail, setValidEmail] = useState(true);
 
     const [formData, setFormData] = useState({
@@ -18,8 +17,9 @@ function ForgotPassword() {
     const resetPassword = async (e) => {
         e.preventDefault();
         try{
+            const auth = getAuth();
             await sendPasswordResetEmail(auth, email);
-            toast.success('Password reset email sent.');
+            toast.success('Password reset email sent. Check your spam folder if you do not see it in your inbox.');
 
         } catch(error){
             toast.error("The specified email address is not registered.");

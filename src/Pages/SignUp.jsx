@@ -7,6 +7,8 @@ import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
 
 import {db} from "../firebase.config";
 import {toast} from "react-toastify";
+import Oauth from "../Components/Oauth";
+import {FcGoogle} from "react-icons/fc";
 
 function SignUp() {
     const navigate = useNavigate();
@@ -95,6 +97,16 @@ function SignUp() {
                         {/*Sign up*/}
                         <div className="form-control mt-6">
                             <button className="btn btn-primary font-bold text-xl" onClick={signUp}>Sign up!</button>
+                        </div>
+                        {/*Divider*/}
+                        <div className="divider mb-0"></div>
+                        {/*Social Login*/}
+                        <div className="form-control ">
+                            <div className="flex justify-center">
+                                <div className="flex items-center">
+                                    <Oauth />                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
