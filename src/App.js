@@ -13,6 +13,7 @@ import Navbar from "./Components/Navbar";
 import {AiFillCopyrightCircle} from "react-icons/ai";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Category from "./Pages/Category";
 
 
 function App() {
@@ -28,27 +29,28 @@ function App() {
 
     return (<>
         <div className={"flex flex-col justify-between flex-1 min-h-screen w-full overflow-hidden"} data-theme={curTheme}>
-            <Alert showScrollRef={showScrollRef}/>                       
+            <Alert showScrollRef={showScrollRef}/>
             <Router>
                 <TopBar setTheme={setCurTheme}/>
-                
+
                 <Routes>
-                        <Route path="/" element={<Explore showScrollRef={showScrollRef} />}/>
-                        <Route path="/offers" element={<Offers />}/>
-                        <Route path="/profile" element={<Profile />}/>
-                        <Route path="/sign-in" element={<SignIn />}/>
-                        <Route path="/sign-up" element={<SignUp />}/>    
-                        <Route path="/forgot-password" element={<ForgotPassword />}/>   
-                        <Route path="/*" element={<NotFound />}/>   
-                </Routes>       
-                
-                <Navbar />
+                    <Route path="/" element={<Explore showScrollRef={showScrollRef}/>}/>
+                    <Route path="/offers" element={<Offers/>}/>
+                    <Route path="/category/:categoryName" element={<Category/>}/>
+                    <Route path="/profile" element={<Profile/>}/>
+                    <Route path="/sign-in" element={<SignIn/>}/>
+                    <Route path="/sign-up" element={<SignUp/>}/>
+                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="/*" element={<NotFound/>}/>
+                </Routes>
+
+                <Navbar/>
             </Router>
 
             <footer className={"flex justify-center items-center p-4 text-center pb-[10em] bg-base-300"}>
-                <AiFillCopyrightCircle className={"text-primary"} /> YOU HAVE REACHED THE FOOT
-            </footer> 
-        </div>          
+                <AiFillCopyrightCircle className={"text-primary"}/> YOU HAVE REACHED THE FOOT
+            </footer>
+        </div>
 
         <ToastContainer theme={"colored"}/>
 
