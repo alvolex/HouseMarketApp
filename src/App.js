@@ -48,7 +48,7 @@ function App() {
             </Router>
 
             <footer className={"flex justify-center items-center p-4 text-center pb-[10em] bg-base-300"}>
-                <AiFillCopyrightCircle className={"text-primary"}/> YOU HAVE REACHED THE FOOT
+                <AiFillCopyrightCircle className={"text-primary mr-4"}/> YOU HAVE REACHED THE FOOT
             </footer>
         </div>
 

@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import {BsHouse} from "react-icons/bs";
 import {GiPaintBucket} from "react-icons/gi";
+import {Link} from "react-router-dom";
 
 function TopBar({setTheme}) {
     const randomTheme = () => {
@@ -18,10 +19,10 @@ function TopBar({setTheme}) {
                 {/*TopBar LEFT*/}
                 <div className={"navbar-start"}>
                     <div className="flex flex-row text-3xl">
-                        <div className="hover:cursor-pointer flex">
+                        <Link to={"/"} className="hover:cursor-pointer flex">
                             <BsHouse className={"text-primary-focus my-auto"}/>
-                            <h1 className={"  invisible sm:visible text-transparent bg-clip-text bg-gradient-to-r from-primary-focus to-secondary-focus"}>HOUSEMARKET</h1>
-                        </div>                        
+                            <h1 className={"invisible sm:visible w-0 sm:w-auto text-transparent bg-clip-text bg-gradient-to-r from-primary-focus to-secondary-focus"}>HOUSEMARKET</h1>
+                        </Link>                        
                     </div>
                 </div>
 
