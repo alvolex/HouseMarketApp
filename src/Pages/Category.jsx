@@ -31,7 +31,6 @@ const Category = () => {
             } catch (error) {
                 toast.error('Something went wrong, please try again.');
             }
-
         })();
 
     }, []);
@@ -60,9 +59,9 @@ const Category = () => {
                                             <div className="card-body items-center text-center bg-neutral">
                                                 <h2 className="card-title text-3xl font-bold  text-center bg-gradient-to-r from-primary to-error via-secondary bg-clip-text text-transparent">{listing.data.location}</h2>
                                                 <p className={"text-primary"}>{listing.data.name}</p>
-                                                <p className={"text-primary"}>{listing.data.discountedPrice < listing.data.regularPrice ? (
+                                                <p className={"text-primary"}>{(listing.data?.discountedPrice > 0 && listing.data.discountedPrice < listing.data.regularPrice) ? (
                                                     <span className={"text-success"}>{listing.data.discountedPrice} <span
-                                                        className={"text-error line-through"}>{listing.data.regularPrice}</span></span>) : (listing.data.regularPrice)} kr</p>
+                                                        className={"text-error font-bold line-through inline-block -rotate-[6deg] animate-pulse"}>{listing.data.regularPrice}</span></span>) : (listing.data.regularPrice)} kr</p>
                                                 <Link to={`/listing/${listing.id}`} state={listing} class="card-actions justify-center">
                                                     <button
                                                         className="btn btn-primary origin-center -rotate-[4deg] hover:rotate-[0deg] italic btn btn-primary hover:cursor-pointer relative bottom-1 shadow-md shadow-secondary hover:shadow-none">More
