@@ -14,6 +14,7 @@ import {AiFillCopyrightCircle} from "react-icons/ai";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Category from "./Pages/Category";
+import Listing from "./Components/Listing";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                     <Route path="/" element={<Explore showScrollRef={showScrollRef}/>}/>
                     <Route path="/offers" element={<Offers/>}/>
                     <Route path="/category/:categoryName" element={<Category/>}/>
+                    <Route path="/listing/:listingId" element={<Listing/>}/>
                     <Route path="/profile" element={<Profile/>}/>
                     <Route path="/sign-in" element={<SignIn/>}/>
                     <Route path="/sign-up" element={<SignUp/>}/>
