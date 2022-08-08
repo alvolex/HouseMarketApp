@@ -15,6 +15,7 @@ import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Category from "./Pages/Category";
 import Listing from "./Components/Listing";
+import CreateListing from "./Components/CreateListing";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
                     <Route path="/sign-in" element={<SignIn/>}/>
                     <Route path="/sign-up" element={<SignUp/>}/>
                     <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="/create-listing" element={<CreateListing/>}/>
                     <Route path="/*" element={<NotFound/>}/>
                 </Routes>
 

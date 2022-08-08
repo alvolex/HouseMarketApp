@@ -94,7 +94,7 @@ function Profile() {
             </div>
 
             <main className={""}>
-                <div className="grid grid-cols-2 flex bg-base-300 py-6 rounded-xl">
+                <div className="grid grid-cols-2 flex bg-base-300 py-6 rounded-xl mb-6">
                     <p className={"font-semibold justify-self-end mr-8"}>Profile Details</p>
                     <div className={"ml-8"}>
                         <p className={"text-success  btn btn-sm btn-outline mb-6 "} onClick={() => {
@@ -111,6 +111,11 @@ function Profile() {
                     <input type={"text"} name={'email'}
                            className={`text-bold ml-8 input input-sm input-primary max-w-[50%] mb-2 text-neutral-content`} disabled={true}
                            value={email} onChange={onChange}/>
+                </div>
+
+                <div className="flex bg-base-300 py-6 rounded-xl text-center flex-col">
+                   <h1 className={"text-xl font-semibold w-full mb-6"}>Create listing</h1>                   
+                    <Link to={"/create-listing"} type={"button"} className={"btn btn-primary mx-6"}>Create listing </Link>
                 </div>
             </main>
         </div>
