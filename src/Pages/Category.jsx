@@ -1,10 +1,10 @@
 ﻿import React, {useEffect, useState} from 'react';
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {collection, query, where, getDocs, orderBy, limit, startAfter} from "firebase/firestore";
 import {db} from "../firebase.config";
 import Spinner from "../Components/Spinner";
 import {toast} from "react-toastify";
-import {list} from "postcss";
+import ListingItem from "../Components/ListingItem";
 
 const Category = () => {
     const {categoryName} = useParams();
@@ -33,7 +33,7 @@ const Category = () => {
             }
         })();
 
-    }, []);
+    }, [categoryName]);
 
     if (listings === null) {
         return <div className={"container mx-auto flex-1 flex-col flex justify-center"}><Spinner/></div>;
@@ -51,26 +51,7 @@ const Category = () => {
                         <main>
                             <ul className={"flex justify-center flex-wrap"}>
                                 {listings.map((listing) => (
-                                    <li key={listing.id}>
-                                        <div className={"card w-96 bg-base-100 shadow-md shadow-secondary border-2 border-secondary mx-3 mb-6"}>
-                                            <figure><img
-                                                src={listing.data?.imageUrls[0] ? listing.data?.imageUrls[0] : 'https://images.unsplash.com/photo-1586446911746-3038e9751ac9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'}
-                                                alt="house picture"/></figure>
-                                            <div className="card-body items-center text-center bg-neutral">
-                                                <h2 className="card-title text-3xl font-bold  text-center bg-gradient-to-r from-primary to-error via-secondary bg-clip-text text-transparent">{listing.data.location}</h2>
-                                                <p className={"text-primary"}>{listing.data.name}</p>
-                                                <p className={"text-primary"}>{(listing.data?.discountedPrice > 0 && listing.data.discountedPrice < listing.data.regularPrice) ? (
-                                                    <span className={"text-success"}>{listing.data.discountedPrice} <span
-                                                        className={"text-error font-bold line-through inline-block -rotate-[6deg] animate-pulse"}>{listing.data.regularPrice}</span></span>) : (listing.data.regularPrice)} kr</p>
-                                                <Link to={`/listing/${listing.id}`} state={listing} class="card-actions justify-center">
-                                                    <button
-                                                        className="btn btn-primary origin-center -rotate-[4deg] hover:rotate-[0deg] italic btn btn-primary hover:cursor-pointer relative bottom-1 shadow-md shadow-secondary hover:shadow-none">More
-                                                        details
-                                                    </button>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    <ListingItem key={listing.id} listing={listing}/>
                                 ))}
                             </ul>
                         </main>
