@@ -1,7 +1,11 @@
 ﻿import React, {useEffect, useRef, useState} from 'react';
 import {getAuth, onAuthStateChanged} from "firebase/auth";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {v4 as uuidv4} from "uuid";
 import {useNavigate} from "react-router-dom";
 import Spinner from "./Spinner";
+import {toast} from "react-toastify";
+import {db} from "../firebase.config";
 
 const CreateListing = () => {
     const [loading, setLoading] = useState(true);
@@ -18,14 +22,13 @@ const CreateListing = () => {
         regularPrice: 0,
         discountedPrice: 0,
         images: [],
-
     });
     const {type, name, description, bedrooms, bathrooms, parking, furnished, address, offer, regularPrice, discountedPrice, images} = formData;
 
     const auth = getAuth();
     const navigate = useNavigate();
     const isMounted = useRef(true);
-
+    
     useEffect(() => {
         if (isMounted) {
             onAuthStateChanged(auth, (user) => {
@@ -47,9 +50,72 @@ const CreateListing = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        
+        if (name === '' || description === '' || address === '') {
+            toast.error('Please fill in all fields');
+            return;
+        }        
+        if(images.length > 6){
+            toast.error('You can only upload 6 images');
+            return;
+        }        
+        if(images.length < 1){
+            toast.error('You must upload at least 1 image');
+            return;
+        }        
+        if(discountedPrice > regularPrice){
+            toast.error('Discounted price can\'t be higher than regular price');
+            return;
+        }
+        
+        //Start uploading images
+        setLoading(true);
+        const imgUrls = await Promise.all(
+            [...images].map(async (image) => uploadImg(image))
+        ).catch(() => {
+            toast.error('Something went wrong, please try again.');
+        })
+        //Upload completed
+        setLoading(false);
+        toast.success('Listing created successfully!');
+        
+        console.log(imgUrls);
+    }    
+    
+    const uploadImg =  (img) => {
+        return new Promise((resolve, reject) => {
+            const storage = getStorage();
+            const fileName = `${auth.currentUser.uid}_${img.name}_${uuidv4()}`;
+            const imagesRef = ref(storage, 'images/' + fileName);
+            
+            const uploadTask = uploadBytesResumable(imagesRef, img);
 
-        console.log(formData);
-    }
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                (error) => {
+                    reject(error);
+                },
+                () => {
+                    getDownloadURL(imagesRef).then(url => {
+                        resolve(url);
+                    })
+                }
+            );
+        })
+    }    
 
     const onMutate = (e) => {
         if (e.target.value === 'true' || e.target.value === 'false') {
