@@ -239,7 +239,7 @@ const CreateListing = () => {
                                     <label className="label">
                                         <span className="label-text text-primary mx-auto ">Images: </span>
                                     </label>
-                                    <label className="input-group label block w-full">
+                                    <label className="input-group label block w-full mb-6">
                                         <input id={"images"} type="file"
                                                className={"text-sm text-primary file:mr-5 file:py-2 file:px-6 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary file:text-secondary hover:file:cursor-pointer hover:file:bg-secondary hover:file:text-primary"}
                                                onChange={onMutate}
