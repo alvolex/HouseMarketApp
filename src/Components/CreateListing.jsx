@@ -17,10 +17,10 @@ const CreateListing = () => {
         offer: false,
         regularPrice: 0,
         discountedPrice: 0,
-        imageUrls: [],
+        images: [],
 
     });
-    const {type, name, description, bedrooms, bathrooms, parking, furnished, address, offer, regularPrice, discountedPrice, imageUrls} = formData;
+    const {type, name, description, bedrooms, bathrooms, parking, furnished, address, offer, regularPrice, discountedPrice, images} = formData;
 
     const auth = getAuth();
     const navigate = useNavigate();
@@ -48,16 +48,19 @@ const CreateListing = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(e.target);
+        console.log(formData);
     }
 
     const onMutate = (e) => {
         if (e.target.value === 'true' || e.target.value === 'false') {
             let boolValue = e.target.value === 'true';
             setFormData({...formData, [e.target.id]: boolValue});
-        } else if (e.target.id === 'discountedPrice' || e.target.id === 'regularPrice') {
+        } else if (e.target.id === 'discountedPrice' || e.target.id === 'regularPrice' || e.target.id === 'bathrooms' || e.target.id === 'bedrooms') {
             setFormData({...formData, [e.target.id]: parseFloat(e.target.value)});
-        } else {
+        } else if(e.target.files){
+            setFormData({...formData, [e.target.id]: e.target.files});
+        }       
+        else {
             setFormData({...formData, [e.target.id]: e.target.value});
         }
     }
@@ -73,16 +76,16 @@ const CreateListing = () => {
                         </h1>
                     </header>
 
-                    <main >
+                    <main>
                         <form onSubmit={onSubmit}
-                              className={"form-control *w-full max-w-sm*/ p-6 items-center border border-primary rounded-xl mb-6 bg-neutral pb-6 lex justify-center"}>                            
-                            
+                              className={"form-control *w-full max-w-sm*/ p-6 items-center border border-primary rounded-xl mb-6 bg-neutral pb-6 lex justify-center"}>
+
                             <div className={"lg:grid-cols-2 lg:gap-6 lg:grid text-center"}>
                                 {/*Left side*/}
                                 <div>
                                     <label className="label">
-                                    <span className="label-text text-primary mx-auto">Sell / Rent</span>
-                                </label>
+                                        <span className="label-text text-primary mx-auto">Sell / Rent</span>
+                                    </label>
                                     <select className="select select-bordered w-full max-w-xs" id={"type"} defaultValue={"Select an option"}
                                             onChange={onMutate}>
                                         <option disabled>Select an option</option>
@@ -98,7 +101,8 @@ const CreateListing = () => {
                                     <label className="label">
                                         <span className="label-text text-primary mx-auto">Adress</span>
                                     </label>
-                                    <input id={"address"} type="text" placeholder="Lincoln Ave. 1337" className="input input-bordered w-full max-w-xs"
+                                    <input id={"address"} type="text" placeholder="Lincoln Ave. 1337"
+                                           className="input input-bordered w-full max-w-xs"
                                            onChange={onMutate} value={address}/>
 
                                     <label className="label">
@@ -133,24 +137,27 @@ const CreateListing = () => {
                                         <option>5</option>
                                     </select>
                                 </div>
-                                
+
                                 {/*Right side*/}
-                                <div>
+                                <div className={"flex flex-col"}>
                                     <label className="label">
                                         <span className="label-text text-primary mx-auto">Parking</span>
-                                    </label>             
-                                    <div className={"flex flex-row border border rounded-xl px-2 py-[0.2em] border-primary/50 max-w-[50%] mx-auto"}>
+                                    </label>
+                                    <div
+                                        className={"flex flex-row border border rounded-xl px-2 py-[0.2em] border-primary/50 max-w-[50%] mx-auto"}>
                                         <div className="form-control mr-4">
                                             <label className="label cursor-pointer">
                                                 <span className="label-text text-primary mx-auto mr-2">Yes</span>
-                                                <input id={"parking"} type="radio" name="radio-Parking" className="radio checked:bg-info radio-primary" value={true}
+                                                <input id={"parking"} type="radio" name="radio-Parking"
+                                                       className="radio checked:bg-info radio-primary" value={true}
                                                        checked={parking} onChange={onMutate}/>
                                             </label>
                                         </div>
                                         <div className="form-control">
                                             <label className="label cursor-pointer">
                                                 <span className="label-text text-primary mx-auto mr-2">No</span>
-                                                <input id={"parking"} type="radio" name="radio-Parking" className="radio checked:bg-error radio-primary"
+                                                <input id={"parking"} type="radio" name="radio-Parking"
+                                                       className="radio checked:bg-error radio-primary"
                                                        value={false} checked={!parking} onChange={onMutate}/>
                                             </label>
                                         </div>
@@ -159,18 +166,21 @@ const CreateListing = () => {
                                     <label className="label">
                                         <span className="label-text text-primary mx-auto">Furnished</span>
                                     </label>
-                                    <div className={"flex flex-row border border rounded-xl px-2 py-[0.2em] border-primary/50 max-w-[50%] mx-auto"}>
+                                    <div
+                                        className={"flex flex-row border border rounded-xl px-2 py-[0.2em] border-primary/50 max-w-[50%] mx-auto"}>
                                         <div className="form-control mr-4">
                                             <label className="label cursor-pointer">
                                                 <span className="label-text text-primary mx-auto mr-2">Yes</span>
-                                                <input id={"furnished"} type="radio" name="radio-furnished" className="radio checked:bg-info radio-primary"
+                                                <input id={"furnished"} type="radio" name="radio-furnished"
+                                                       className="radio checked:bg-info radio-primary"
                                                        value={true} checked={furnished} onChange={onMutate}/>
                                             </label>
                                         </div>
                                         <div className="form-control">
                                             <label className="label cursor-pointer">
                                                 <span className="label-text text-primary mx-auto mr-2">No</span>
-                                                <input id={"furnished"} type="radio" name="radio-furnished" className="radio checked:bg-error radio-primary"
+                                                <input id={"furnished"} type="radio" name="radio-furnished"
+                                                       className="radio checked:bg-error radio-primary"
                                                        value={false} checked={!furnished} onChange={onMutate}/>
                                             </label>
                                         </div>
@@ -192,18 +202,21 @@ const CreateListing = () => {
                                     <label className="label">
                                         <span className="label-text text-primary mx-auto ">Special offer?</span>
                                     </label>
-                                    <div className={"flex flex-row border border rounded-xl px-2 py-[0.2em] border-primary/50 max-w-[50%] mx-auto"}>
+                                    <div
+                                        className={"flex flex-row border border rounded-xl px-2 py-[0.2em] border-primary/50 max-w-[50%] mx-auto"}>
                                         <div className="form-control mr-4">
                                             <label className="label cursor-pointer">
                                                 <span className="label-text text-primary mx-auto mr-2">Yes</span>
-                                                <input id={"offer"} type="radio" name="radio-offer" className="radio checked:bg-info radio-primary" value={true}
+                                                <input id={"offer"} type="radio" name="radio-offer"
+                                                       className="radio checked:bg-info radio-primary" value={true}
                                                        checked={offer} onChange={onMutate}/>
                                             </label>
                                         </div>
                                         <div className="form-control">
                                             <label className="label cursor-pointer">
                                                 <span className="label-text text-primary mx-auto mr-2">No</span>
-                                                <input id={"offer"} type="radio" name="radio-offer" className="radio checked:bg-error radio-primary" value={false}
+                                                <input id={"offer"} type="radio" name="radio-offer"
+                                                       className="radio checked:bg-error radio-primary" value={false}
                                                        checked={!offer} onChange={onMutate}/>
                                             </label>
                                         </div>
@@ -222,13 +235,23 @@ const CreateListing = () => {
                                             <span>${type === 'rent' ? '/Mo' : ''}</span>
                                         </label>
                                     </>}
+
+                                    <label className="label">
+                                        <span className="label-text text-primary mx-auto ">Images: </span>
+                                    </label>
+                                    <label className="input-group label block w-full">
+                                        <input id={"images"} type="file"
+                                               className={"text-sm text-primary file:mr-5 file:py-2 file:px-6 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary file:text-secondary hover:file:cursor-pointer hover:file:bg-secondary hover:file:text-primary"}
+                                               onChange={onMutate}
+                                               multiple
+                                               required
+                                               max='6'
+                                               accept="image/*"/>
+                                    </label>
+                                    
+                                    <button className="btn btn-primary btn-block lg:mt-auto mt-6">Submit</button>
                                 </div>
                             </div>
-
-                            
-
-                            
-                            
                         </form>
                     </main>
                 </>
