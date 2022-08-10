@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import Spinner from "./Spinner";
 import {toast} from "react-toastify";
 import {db} from "../firebase.config";
+import {serverTimestamp, addDoc, collection} from "firebase/firestore";
 
 const CreateListing = () => {
     const [loading, setLoading] = useState(true);
@@ -68,18 +69,25 @@ const CreateListing = () => {
             return;
         }
         
-        //Start uploading images
+        //Start uploading images to firestore
         setLoading(true);
-        const imgUrls = await Promise.all(
+        const imageUrls = await Promise.all(
             [...images].map(async (image) => uploadImg(image))
         ).catch(() => {
             toast.error('Something went wrong, please try again.');
-        })
-        //Upload completed
+        })        
+        
+        //Create listing in firestore
+        const submitData = {...formData, imageUrls, timestamp: serverTimestamp()};
+        delete submitData.images;
+        !submitData.offer && delete submitData.discountedPrice;
+        
+        const listingRef = await addDoc(collection(db, "listings"), submitData);
+
         setLoading(false);
         toast.success('Listing created successfully!');
         
-        console.log(imgUrls);
+        navigate(`/listing/${listingRef.id}`, {state: {data:submitData}});        
     }    
     
     const uploadImg =  (img) => {
