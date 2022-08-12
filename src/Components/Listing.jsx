@@ -5,6 +5,8 @@ import {db} from "../firebase.config";
 import {toast} from "react-toastify";
 import Spinner from "./Spinner";
 import {getAuth} from "firebase/auth";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import {Carousel} from "react-responsive-carousel";
 
 const Listing = () => {
     const [listing, setListing] = useState(null);
@@ -34,17 +36,29 @@ const Listing = () => {
     }, [params.listingId])
     
     return (
-        <div className={"container mx-auto flex-1 flex flex-col mt-6 items-center"}>
+        <div className={"container mx-auto flex-1 flex flex-col items-center"}>
             {listing ? (<>
                     <div className={"w-full text-center m-auto"}>
                         <header>
                             <h1
-                                className={"text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-error via-secondary mx-auto pb-4 pt-2 mb-6 sm:mb-0 overflow-hidden"}>
+                                className={"text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-error via-secondary pb-4 pt-2 mb-6 sm:mb-0 overflow-hidden"}>
                                 {listing.address}
                             </h1>
                         </header>
+
+
+                            <Carousel dynamicHeight={true} showArrows={false}  showStatus={false} className={"mb-6 mx-16"}>
+                                {listing.imageUrls.map((image) => (
+                                    <div key={image.toString()} className={"h-64"}>
+                                        <img src={image} alt={"House"} className={"rounded-2xl "}/>
+                                    </div>
+                                ))}
+                            </Carousel>
+
                         
-                        <div className={"lg:grid-cols-2 lg:gap-6 lg:grid text-center border border-primary rounded-xl mb-6 bg-neutral w-fit px-16 py-8 m-auto"}>
+                        
+                        
+                        <div className={"md:grid-cols-2 md:gap-6 md:grid text-center border border-primary rounded-xl mb-6 bg-neutral w-fit px-16 py-8 m-auto"}>
                             {/*Left side*/}
                             <div className={"break-all mr-6 flex justify-end"}>
                                 <div className={"w-fit text-start"}>
@@ -55,9 +69,10 @@ const Listing = () => {
                                     <p className={"text-xl"}><span className={"text-primary"}> Address:</span> {listing.address} </p>
                                 </div>
                             </div>
-
+                            
                             {/*Right side*/}
                             <div className={"break-all text-start ml-6"}>
+                                <span className="md:hidden divider"></span>
                                 <p className={"text-xl"}><span className={"text-primary"}> Bedrooms:</span> {listing.bedrooms}</p>
                                 <p className={"text-xl"}><span className={"text-primary"}> Bathrooms:</span> {listing.bathrooms}</p>
                                 <p className={"text-xl"}><span className={"text-primary"}> Parking:</span> {listing.parking ? 'Yes' : 'No'}</p>
